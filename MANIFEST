@@ -82,7 +82,6 @@ t/91errcheck.t
 t/99_bug_server_prepare_blob_null.t
 t/lib.pl
 t/manifest.t
-t/mysql.dbtest
 t/mysql.mtest
 t/pod.t
 t/rt25389-bin-case.t
