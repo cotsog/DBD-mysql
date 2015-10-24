@@ -1,16 +1,8 @@
+osx_image: xcode7.1
 language: perl
-perl:
-  - "5.8"
-  - "5.10"
-  - "5.12"
-  - "5.14"
-  - "5.16"
-  - "5.18"
-  - "5.20"
 before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq libmysqlclient-dev
- - perlbrew install-cpanm -f
-install:
-  - cpanm --quiet DBI Test::Pod Test::Deep Test::DistManifest Proc::ProcessTable
+ - brew update
+ - brew outdated mysql || brew upgrade mysql
+ - brew outdated mysql-connector-c || brew upgrade mysql-connector-c
+ - sudo cpan install DBI Test::Pod Test::Deep Test::DistManifest Proc::ProcessTable
 script: "export RELEASE_TESTING=1 && perl Makefile.PL && make disttest"
