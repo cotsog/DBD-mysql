@@ -1,5 +1,6 @@
+os:
+  - osx
 osx_image: xcode7.1
-language: perl
 before_install:
  - brew update
  - brew outdated mysql || brew upgrade mysql
