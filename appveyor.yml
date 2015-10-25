@@ -1,8 +1,20 @@
+version: 1.0.{build}
+
 services:
   - mysql
+
 install:
-  - ps: (new-object net.webclient).DownloadFile('http://strawberryperl.com/download/5.22.0.1/strawberry-perl-5.22.0.1-64bit.msi', 'strawberry-perl-5.22.0.1-64bit.msi')
-#    Path: C:\Program Files\MySql\MySQL Server 5.6
-#    Server name: 127.0.0.1 or localhost
-#    Server port: 3306
-#    root password: Password12!
+  - cinst StrawberryPerl
+  - path C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
+  - mkdir %APPVEYOR_BUILD_FOLDER%\tmp
+  - set TMPDIR=%APPVEYOR_BUILD_FOLDER%\tmp
+  - perl -V
+  - cpan App::cpanminus
+  - cpanm -q --showdeps --with-develop --with-suggests . | findstr /v "^perl\>" | cpanm -n
+  - 'echo End intall at: & time /t'
+
+build_script:
+  - perl Makefile.PL --mysql_config=c:\strawberry\c\bin\mysql_config.bat --test-user=root --test-password=Password12!
+
+test_script:
+  - dmake test
