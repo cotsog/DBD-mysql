@@ -1,0 +1,8 @@
+services:
+  - mysql
+install:
+  - ps: (new-object net.webclient).DownloadFile('http://strawberryperl.com/download/5.22.0.1/strawberry-perl-5.22.0.1-64bit.msi', 'strawberry-perl-5.22.0.1-64bit.msi')
+#    Path: C:\Program Files\MySql\MySQL Server 5.6
+#    Server name: 127.0.0.1 or localhost
+#    Server port: 3306
+#    root password: Password12!
