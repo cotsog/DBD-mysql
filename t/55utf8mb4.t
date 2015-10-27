@@ -15,15 +15,14 @@ if ($@) {
     plan skip_all => "no database connection";
 }
 
-if (!MinimumVersion($dbh, '5.5')) {
-    plan skip_all =>
-        "SKIP TEST: You must have MySQL version 5.5 and greater for this test to run";
-}
-plan tests => 6;
-
-$dbh = DBI->connect($test_dsn . ';mysql_enable_utf8mb4=1', $test_user, $test_password,
+$dbh = DBI->connect($test_dsn, $test_user, $test_password,
                       { RaiseError => 1, PrintError => 1, AutoCommit => 0 });
 
+eval {$dbh->do("SET NAMES 'utf8mb4'");};
+if ($@) {
+   $dbh->disconnect();
+   plan skip_all => "no support for utf8mb4";
+}
 ok $dbh->do("DROP TABLE IF EXISTS dbd_mysql_t55utf8mb4");
 ok $dbh->do("CREATE TABLE dbd_mysql_t55utf8mb4 (id SERIAL, val TEXT CHARACTER SET utf8mb4)");
 
@@ -44,3 +43,4 @@ cmp_ok $ref->[0], 'eq', "😈";
 cmp_ok $ref->[1], 'eq', "F09F9888";
 
 $dbh->disconnect();
+done_testing;
