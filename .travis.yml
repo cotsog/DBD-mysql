@@ -3,8 +3,8 @@ os:
 osx_image: xcode7.1
 before_install:
  - brew update
- - brew list | grep 'mysql'
- - brew outdated mysql || brew upgrade mysql
- - brew outdated mysql-connector-c || brew upgrade mysql-connector-c
+ - brew list
+ - brew install mysql
+ - brew install mysql-connector-c
  - sudo cpan install DBI Test::Pod Test::Deep Test::DistManifest Proc::ProcessTable
 script: "export RELEASE_TESTING=1 && perl Makefile.PL && make disttest"
